@@ -96,3 +96,5 @@ VOICE_NAME_HINT = "David"  # Or "Zira" / default system voice
 # YOLO Model Settings
 YOLO_MODEL_NAME = "yolov8m.pt"  # upgraded model for higher accuracy
 YOLO_CONFIDENCE_THRESHOLD = 0.30  # balanced confidence to detect all indoor and outdoor obstacles reliably
+# Minimum detection confidence used across the system (can be tuned)
+DETECTION_CONFIDENCE_MIN = 0.30

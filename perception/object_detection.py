@@ -12,7 +12,7 @@ import time
 from typing import Any, Dict, List, Optional
 import numpy as np
 
-from config import YOLO_MODEL_NAME, YOLO_CONFIDENCE_THRESHOLD, MODELS_DIR
+from config import YOLO_MODEL_NAME, YOLO_CONFIDENCE_THRESHOLD, DETECTION_CONFIDENCE_MIN, MODELS_DIR
 
 logger = logging.getLogger("VisionAssist.Perception.ObjectDetection")
 
@@ -25,7 +25,7 @@ class ObjectDetector:
     def __init__(
         self,
         model_name: str = YOLO_MODEL_NAME,
-        conf_thresh: float = YOLO_CONFIDENCE_THRESHOLD,
+        conf_thresh: float = DETECTION_CONFIDENCE_MIN,
         device: Optional[str] = None,
     ):
         self.model_name = model_name
@@ -131,18 +131,17 @@ class ObjectDetector:
                             cls_id = int(box.cls[0].item())
                             cls_name = r.names.get(cls_id, f"obj_{cls_id}").lower()
                             conf = float(box.conf[0].item())
-                            x1, y1, x2, y2 = [int(v) for v in box.xyxy[0].tolist()]
-                            # Special handling for critical mobility hazards (vehicles)
+                            # Apply configurable confidence threshold (except for vehicles which keep stricter 0.25)
                             is_vehicle = cls_name in ("car", "bus", "truck", "motorcycle")
                             thresh = 0.25 if is_vehicle else self.conf_thresh
                             if conf < thresh:
                                 continue
+                            x1, y1, x2, y2 = [int(v) for v in box.xyxy[0].tolist()]
                             # Clamp bounding box coordinates to image boundaries
                             x1 = max(0, min(w - 1, x1))
                             y1 = max(0, min(h - 1, y1))
                             x2 = max(0, min(w - 1, x2))
                             y2 = max(0, min(h - 1, y2))
-
                             x_center = (x1 + x2) / 2.0
                             y_center = (y1 + y2) / 2.0
                             detections.append({
