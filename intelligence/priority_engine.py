@@ -7,7 +7,12 @@ observation to announce. Manages debounce cooldowns to avoid repetitive speech l
 
 import time
 from typing import Any, Dict, List, Optional
-from config import ProductMode, ANNOUNCEMENT_COOLDOWN_SECONDS, CRITICAL_SAFETY_DISTANCE_METERS
+from config import (
+    ProductMode,
+    ANNOUNCEMENT_COOLDOWN_SECONDS,
+    CRITICAL_SAFETY_DISTANCE_METERS,
+    CRITICAL_RISK_THRESHOLD,
+)
 
 
 class PriorityEngine:
@@ -100,7 +105,14 @@ class PriorityEngine:
             dist = candidate["distance"]
             pos = candidate["position"]
             # Trigger alert if obstacle within 1.8m or high risk in center
-            if dist <= 1.8 or candidate["priority"] == "HIGH" or pos == "Centre":
+            # TODO: replace placeholder with WALK_CORRIDOR check once Walk Corridor is implemented
+            critical = (
+                dist <= CRITICAL_SAFETY_DISTANCE_METERS
+                and pos == "Centre"  # temporary stand‑in for WALK_CORRIDOR
+                and candidate["risk_score"] >= CRITICAL_RISK_THRESHOLD
+            )
+            # Duplicate safety condition block removed
+            if critical:
                 return {
                     "type": "safety_alert",
                     "candidate": candidate,
@@ -168,7 +180,8 @@ class PriorityEngine:
                 return None
 
         # Suppress low-threat background items during obstacle awareness mode
-        if priority == "LOW" and not force_refresh:
+        # Allow low-priority person detections to be announced, as they are relevant for navigation.
+        if priority == "LOW" and obj_name != "person" and not force_refresh:
             return None
 
         # Candidate approved for announcement

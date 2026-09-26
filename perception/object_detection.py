@@ -130,10 +130,14 @@ class ObjectDetector:
                         for box in boxes:
                             cls_id = int(box.cls[0].item())
                             cls_name = r.names.get(cls_id, f"obj_{cls_id}").lower()
+                            # No special handling for stairs; keep original class label
                             conf = float(box.conf[0].item())
-                            # Apply configurable confidence threshold (except for vehicles which keep stricter 0.25)
+                            # Apply configurable confidence threshold: stricter for vehicles, lower for persons/stairs
                             is_vehicle = cls_name in ("car", "bus", "truck", "motorcycle")
-                            thresh = 0.25 if is_vehicle else self.conf_thresh
+                            if is_vehicle:
+                                thresh = 0.25
+                            else:
+                                thresh = self.conf_thresh
                             if conf < thresh:
                                 continue
                             x1, y1, x2, y2 = [int(v) for v in box.xyxy[0].tolist()]
@@ -144,18 +148,17 @@ class ObjectDetector:
                             y2 = max(0, min(h - 1, y2))
                             x_center = (x1 + x2) / 2.0
                             y_center = (y1 + y2) / 2.0
-                            detections.append({
-                                "object": cls_name,
-                                "confidence": round(conf, 2),
-                                "x_center": round(x_center, 1),
-                                "y_center": round(y_center, 1),
-                                "bbox": [x1, y1, x2, y2],
-                            })
-                    # Check for stairs hazard (steps/stairways have distinctive periodic horizontal edges)
-                    if not any(d["object"] == "stairs" for d in detections):
-                        stair_det = self._detect_stairs(frame)
-                        if stair_det:
-                            detections.append(stair_det)
+                            # Append detection only for non-stairs objects
+                            if cls_name != "stairs":
+                                detections.append({
+                                    "object": cls_name,
+                                    "confidence": round(conf, 2),
+                                    "x_center": round(x_center, 1),
+                                    "y_center": round(y_center, 1),
+                                    "bbox": [x1, y1, x2, y2],
+                                })
+                        # Removed extra stairs detection logic
+
                     return detections
                 except Exception as e:
                     logger.error(f"YOLO inference error: {e}")
@@ -174,24 +177,7 @@ class ObjectDetector:
             roi = gray[int(h * 0.20):, :]
             edges = cv2.Canny(roi, 50, 150)
             lines = cv2.HoughLinesP(edges, 1, np.pi/180, threshold=30, minLineLength=int(w * 0.15), maxLineGap=20)
-            if lines is not None and len(lines) >= 12:
-                lines = lines.reshape(-1, 4)
-                h_lines = [l for l in lines if abs(l[1] - l[3]) <= 6 and abs(l[0] - l[2]) >= int(w * 0.16)]
-                if len(h_lines) >= 8:
-                    xs = [min(l[0], l[2]) for l in h_lines] + [max(l[0], l[2]) for l in h_lines]
-                    ys = [min(l[1], l[3]) + int(h * 0.20) for l in h_lines] + [max(l[1], l[3]) + int(h * 0.20) for l in h_lines]
-                    x1 = max(0, min(xs))
-                    x2 = min(w - 1, max(xs))
-                    y1 = max(0, min(ys))
-                    y2 = min(h - 1, max(ys))
-                    conf = min(0.95, 0.65 + len(h_lines) * 0.005)
-                    return {
-                        "object": "stairs",
-                        "confidence": round(float(conf), 2),
-                        "x_center": round(float((x1 + x2) / 2.0), 1),
-                        "y_center": round(float((y1 + y2) / 2.0), 1),
-                        "bbox": [int(x1), int(y1), int(x2), int(y2)],
-                    }
+
         except Exception as e:
             logger.debug(f"Stairs detection error: {e}")
         return None

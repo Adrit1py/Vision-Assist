@@ -8,10 +8,58 @@ browser or earphones over the local Wi-Fi / hotspot network.
 from http.server import HTTPServer
 import logging
 import threading
-from typing import Optional
-from audio.tts import _PhoneAudioHTTPHandler
+import time
+from typing import Optional, List, Dict, Any
 
 logger = logging.getLogger("VisionAssist.AudioServer")
+
+
+class GlobalAudioState:
+    """Thread-safe global audio state for wearable clients."""
+
+    def __init__(self):
+        self._lock = threading.Lock()
+        self.current_utterance: str = ""
+        self.is_critical: bool = False
+        self.timestamp: float = 0.0
+        self.history: List[Dict[str, Any]] = []
+
+    def update_utterance(self, text: str, is_critical: bool = False) -> None:
+        with self._lock:
+            self.current_utterance = text
+            self.is_critical = is_critical
+            self.timestamp = time.time()
+            self.history.append({
+                "text": text,
+                "is_critical": is_critical,
+                "timestamp": self.timestamp,
+            })
+
+    def get_state(self) -> Dict[str, Any]:
+        with self._lock:
+            return {
+                "current_utterance": self.current_utterance,
+                "is_critical": self.is_critical,
+                "timestamp": self.timestamp,
+                "history": list(self.history),
+            }
+
+
+GLOBAL_AUDIO_STATE = GlobalAudioState()
+
+
+def notify_phone_audio(text: str, is_critical: bool = False) -> None:
+    """Publish an utterance to all connected wearable phone clients."""
+    GLOBAL_AUDIO_STATE.update_utterance(text, is_critical=is_critical)
+    try:
+        from audio.tts import _SPEECH_LOCK, _LATEST_SPEECH
+        with _SPEECH_LOCK:
+            _LATEST_SPEECH["id"] = _LATEST_SPEECH.get("id", 0) + 1
+            _LATEST_SPEECH["text"] = text
+            _LATEST_SPEECH["timestamp"] = time.time()
+            _LATEST_SPEECH["is_urgent"] = is_critical
+    except Exception:
+        pass
 
 
 class AudioStreamServer:
@@ -29,6 +77,7 @@ class AudioStreamServer:
         if self.is_running:
             return
         try:
+            from audio.tts import _PhoneAudioHTTPHandler
             self.server = HTTPServer(
                 (self.host, self.port),
                 _PhoneAudioHTTPHandler

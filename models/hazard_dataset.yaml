@@ -1,0 +1,80 @@
+path: ../datasets/hazards # dataset root dir
+train: images/train
+val: images/val
+test: images/test
+
+# Classes
+names:
+  0: stairs (up)
+  1: stairs (down)
+  2: curb
+  3: pothole
+  4: manhole (open)
+  5: uneven pavement
+  6: wet floor
+  7: ramp
+  8: escalator
+  9: elevator door
+  10: train platform edge
+  11: construction pit/trench
+  12: cable/wire on ground
+  13: car
+  14: bus
+  15: truck
+  16: motorcycle
+  17: bicycle
+  18: e-scooter
+  19: auto-rickshaw
+  20: train
+  21: traffic light
+  22: pedestrian crossing signal
+  23: zebra crossing
+  24: traffic cone
+  25: barricade
+  26: pole (light/sign)
+  27: fire hydrant
+  28: bollard
+  29: mailbox
+  30: bus stop sign/shelter
+  31: low-hanging branch
+  32: low awning/signboard
+  33: scaffolding
+  34: open cabinet/door edge
+  35: door (open)
+  36: door (closed)
+  37: glass door
+  38: revolving door
+  39: automatic sliding door
+  40: pedestrian
+  41: cyclist
+  42: dog (loose)
+  43: other animals
+  44: chair
+  45: table
+  46: stool
+  47: trash can
+  48: box/package on floor
+  49: electrical wire/cord
+  50: glass table/wall
+  51: staircase railing
+  52: water bottle
+  53: cup/mug
+  54: plate
+  55: phone
+  56: wallet
+  57: keys
+  58: medicine bottle/pack
+  59: currency note/coin
+  60: food item
+  61: remote control
+  62: street sign
+  63: shop sign
+  64: restroom sign
+  65: exit sign
+  66: warning/hazard sign
+  67: puddle
+  68: swimming pool edge
+  69: water body (pond/canal)
+  70: stove/burner
+  71: open flame
+  72: hot surface

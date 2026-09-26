@@ -5,10 +5,11 @@ Transforms prioritized perception/risk results into concise, clear,
 and grammatically natural spoken sentences for visually impaired users.
 Supports bilingual output (English / Hindi) for hackathon demo versatility.
 Conforms strictly to Team Interface Contract:
-Returns: { "text": str }
+Returns: { \"text\": str }
 """
 
 from typing import Any, Dict, Optional
+from config import TTS_RATE, CONFIDENCE_HIGH
 
 # Localization dictionaries for Phase 4 Multilingual Demo
 _HINDI_OBJECTS = {
@@ -36,7 +37,6 @@ _HINDI_POSITIONS = {
     "on your far right": "आपकी दूर दाईं ओर",
 }
 
-
 def _translate_to_hindi(english_text: str, cand: dict) -> str:
     """Helper to convert assistive phrases to fluent Hindi."""
     obj_en = cand.get("object", "obstacle").lower()
@@ -53,7 +53,6 @@ def _translate_to_hindi(english_text: str, cand: dict) -> str:
     if obj_en in ("door", "doorway"):
         return f"दरवाजा {pos_hi} है।"
     return f"{obj_hi} {pos_hi}, लगभग {dist} मीटर दूर है।"
-
 
 class ResponseGenerator:
     """
@@ -89,12 +88,10 @@ class ResponseGenerator:
             pos_desc = cand.get("position_desc", "ahead")
             dist = cand.get("distance", 1.0)
             if language == "hi":
-                return {
-                    "text": _translate_to_hindi(
-                        "Warning. Obstacle ahead.",
-                        cand
-                    )
-                }
+                return {"text": _translate_to_hindi(
+                    "Warning. Obstacle ahead.",
+                    cand
+                )}
             if dist <= 1.0:
                 msg = (
                     f"Warning. {obj.capitalize()} {pos_desc}, "
@@ -107,7 +104,7 @@ class ResponseGenerator:
         if item_type == "ocr":
             if prioritized_item.get("is_unclear"):
                 if language == "hi":
-                    msg_hi = "टेक्स्ट स्पष्ट नहीं है, कृपया थोड़ा पास आएँ।"
+                    msg_hi = "टेक्स्ट स्पष्ट नहीं है, कृपया थोड़ा पास आएँ。"
                     return {"text": msg_hi}
                 msg = (
                     "Text appears unclear, please adjust lighting "
@@ -137,19 +134,15 @@ class ResponseGenerator:
                     s_pos = secondary["position_desc"]
                     s_hi = _HINDI_OBJECTS.get(s_obj.lower(), s_obj)
                     s_pos_hi = _HINDI_POSITIONS.get(s_pos.lower(), "सामने")
-                    return {
-                        "text": f"आगे {p_hi} {p_pos_hi} है, "
-                                f"और {s_hi} {s_pos_hi} है।"
-                    }
+                    return {"text": f"आगे {p_hi} {p_pos_hi} है, "
+                                 f"और {s_hi} {s_pos_hi} है।"}
                 return {"text": f"आगे {p_hi} {p_pos_hi} है।"}
 
             if secondary:
                 s_obj = secondary["object"]
                 s_pos = secondary["position_desc"]
-                return {
-                    "text": f"There is a {p_obj} {p_pos}, "
-                            f"and a {s_obj} {s_pos}."
-                }
+                return {"text": f"There is a {p_obj} {p_pos}, "
+                             f"and a {s_obj} {s_pos}."}
             return {"text": f"There is a {p_obj} {p_pos}."}
 
         # 5. Obstacle / Navigational Guidance
@@ -174,11 +167,11 @@ class ResponseGenerator:
 
             # Normal distance description
             if dist < 1.5:
-                dist_str = f"approximately {dist} metres"
+                dist_str = f"about {round(dist, 1)} metres"
             elif dist < 3.0:
-                dist_str = f"about {dist} metres"
+                dist_str = f"approximately {round(dist, 1)} metres"
             else:
-                dist_str = f"{dist} metres"
+                dist_str = f"{round(dist, 1)} metres"
 
             # Contextual phrasing
             if obj in ("stairs", "steps"):

@@ -245,7 +245,7 @@ def run_cli_loop(
 
 def launch_streamlit():
     """Launch the Streamlit web dashboard."""
-    dashboard_path = Path(__file__).resolve().parent / "ui" / "dashboard.py"
+    dashboard_path = Path(__file__).resolve().parent / "ui" / "dashboard_v2.py"
     logger.info(f"Launching Streamlit dashboard: {dashboard_path}")
     cmd = [sys.executable, "-m", "streamlit", "run", str(dashboard_path)]
     subprocess.run(cmd)

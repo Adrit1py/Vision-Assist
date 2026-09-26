@@ -6,7 +6,16 @@ Calculates normalized horizontal & vertical coordinates and classifies
 """
 
 from typing import List, Tuple
-from config import HORIZONTAL_LEFT_BOUNDARY, HORIZONTAL_RIGHT_BOUNDARY
+from config import (
+    HORIZONTAL_LEFT_BOUNDARY,
+    HORIZONTAL_RIGHT_BOUNDARY,
+    WALK_CORRIDOR_TOP_LEFT,
+    WALK_CORRIDOR_TOP_RIGHT,
+    WALK_CORRIDOR_BOTTOM_LEFT,
+    WALK_CORRIDOR_BOTTOM_RIGHT,
+)
+
+import math
 
 
 def calculate_bounding_box_center(bbox: List[int]) -> Tuple[float, float]:
@@ -22,6 +31,35 @@ def calculate_bounding_box_center(bbox: List[int]) -> Tuple[float, float]:
         return ((x1 + x2) / 2.0, (y1 + y2) / 2.0)
     except Exception:
         return (320.0, 240.0)
+
+
+def _point_in_polygon(point: tuple[float, float], polygon: list[tuple[float, float]]) -> bool:
+    """Ray casting algorithm to determine if point is inside polygon.
+    Points and polygon vertices are given in normalized (0‑1) coordinates.
+    """
+    x, y = point
+    inside = False
+    n = len(polygon)
+    for i in range(n):
+        x1, y1 = polygon[i]
+        x2, y2 = polygon[(i + 1) % n]
+        intersect = ((y1 > y) != (y2 > y)) and (
+            x < (x2 - x1) * (y - y1) / (y2 - y1 + 1e-9) + x1
+        )
+        if intersect:
+            inside = not inside
+    return inside
+
+def is_in_walk_corridor(bbox: list[int], frame_width: int, frame_height: int) -> bool:
+    """Return True if the bottom‑center point of the bounding box lies inside the walk corridor.
+    The corridor polygon is defined in config as normalized coordinates and scaled to the
+    current frame size.
+    """
+    x1, y1, x2, y2 = bbox[:4]
+    bottom_center = ((x1 + x2) / 2.0 / frame_width, y2 / frame_height)
+    # Build polygon in normalized coords
+    polygon = [WALK_CORRIDOR_TOP_LEFT, WALK_CORRIDOR_TOP_RIGHT, WALK_CORRIDOR_BOTTOM_RIGHT, WALK_CORRIDOR_BOTTOM_LEFT]
+    return _point_in_polygon(bottom_center, polygon)
 
 
 def classify_position(x_center: float, frame_width: int) -> str:

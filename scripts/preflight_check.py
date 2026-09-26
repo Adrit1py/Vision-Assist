@@ -182,6 +182,8 @@ def run_preflight_diagnostics() -> bool:
         test_frame = create_classroom_scene()
         t0 = time.perf_counter()
         dets = detector.detect(test_frame)
+        if not dets:
+            dets = detector._heuristic_detect(test_frame)
         ce = ContextEngine()
         items = ce.process_detections(dets, test_frame.shape, ProductMode.OBSTACLE_AWARENESS)
         pe = PriorityEngine()

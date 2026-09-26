@@ -52,7 +52,7 @@ OBJECT_DANGER_WEIGHTS = {
     "stop sign": 60,
     
     # Moderate Mobility Obstacles (30 - 65)
-    "person": 45,
+    "person": 65,
     "chair": 36,
     "couch": 45,
     "bench": 45,
@@ -88,6 +88,19 @@ RISK_THRESHOLD_LOW = 20.0       # Suppressed unless in Quick Look mode
 ANNOUNCEMENT_COOLDOWN_SECONDS = 3.5
 CRITICAL_SAFETY_DISTANCE_METERS = 1.2
 
+# Critical risk score threshold for safety alerts
+CRITICAL_RISK_THRESHOLD = 50.0
+
+# Confidence threshold for detailed spoken descriptions
+CONFIDENCE_HIGH = 0.6
+
+# Walk corridor polygon corners (normalized 0‑1 coordinates)
+# (x, y) format – can be tuned per camera mount
+WALK_CORRIDOR_TOP_LEFT = (0.30, 0.0)
+WALK_CORRIDOR_TOP_RIGHT = (0.70, 0.0)
+WALK_CORRIDOR_BOTTOM_LEFT = (0.10, 1.0)
+WALK_CORRIDOR_BOTTOM_RIGHT = (0.90, 1.0)
+
 # Text-To-Speech Settings
 TTS_RATE = 175  # Words per minute
 TTS_VOLUME = 1.0
@@ -97,4 +110,4 @@ VOICE_NAME_HINT = "David"  # Or "Zira" / default system voice
 YOLO_MODEL_NAME = "yolov8m.pt"  # upgraded model for higher accuracy
 YOLO_CONFIDENCE_THRESHOLD = 0.30  # balanced confidence to detect all indoor and outdoor obstacles reliably
 # Minimum detection confidence used across the system (can be tuned)
-DETECTION_CONFIDENCE_MIN = 0.30
+DETECTION_CONFIDENCE_MIN = 0.20

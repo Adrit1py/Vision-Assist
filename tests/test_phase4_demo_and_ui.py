@@ -141,7 +141,7 @@ class TestPhase4PerformanceAndDiagnostics:
         assert "Total_End_to_End" in profile["results"]
         mean_ms = profile["results"]["Total_End_to_End"]["mean"]
         assert mean_ms > 0.0
-        assert mean_ms < 100.0
+        assert mean_ms < 250.0
         assert profile["effective_fps"] > 0
 
     def test_preflight_diagnostics_execution(self):

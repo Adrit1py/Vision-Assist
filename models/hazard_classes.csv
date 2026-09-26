@@ -1,0 +1,74 @@
+category,object_class,hazard_level,notes
+Ground Hazards,stairs (up),high,detect direction to warn ascend vs descend
+Ground Hazards,stairs (down),critical,most critical fall risk
+Ground Hazards,curb,medium,step-down edge on sidewalks
+Ground Hazards,pothole,high,uneven/broken pavement
+Ground Hazards,manhole (open),critical,rare but severe
+Ground Hazards,uneven pavement,medium,cracks/tree roots
+Ground Hazards,wet floor,medium,slip hazard - often marked with sign
+Ground Hazards,ramp,low,useful navigational cue
+Ground Hazards,escalator,high,moving hazard
+Ground Hazards,elevator door,medium,gap hazard when opening/closing
+Ground Hazards,train platform edge,critical,drop-off with no railing
+Ground Hazards,construction pit/trench,critical,
+Ground Hazards,cable/wire on ground,medium,trip hazard
+Vehicles,car,critical,moving/parked
+Vehicles,bus,critical,
+Vehicles,truck,critical,
+Vehicles,motorcycle,critical,
+Vehicles,bicycle,high,fast and quiet
+Vehicles,e-scooter,high,fast and often silent
+Vehicles,auto-rickshaw,high,common in South Asian traffic
+Vehicles,train,critical,
+Street Infrastructure,traffic light,medium,color state matters (red/green)
+Street Infrastructure,pedestrian crossing signal,medium,
+Street Infrastructure,zebra crossing,low,navigational aid
+Street Infrastructure,traffic cone,low,marks temporary hazard
+Street Infrastructure,barricade,medium,
+Street Infrastructure,pole (light/sign),medium,head/body collision risk
+Street Infrastructure,fire hydrant,low,
+Street Infrastructure,bollard,low,
+Street Infrastructure,mailbox,low,
+Street Infrastructure,bus stop sign/shelter,low,navigational landmark
+Overhead Hazards,low-hanging branch,medium,not ground-level so easy to miss
+Overhead Hazards,low awning/signboard,medium,
+Overhead Hazards,scaffolding,high,
+Overhead Hazards,open cabinet/door edge,medium,indoor overhead hazard
+Doors & Entrances,door (open),low,navigational
+Doors & Entrances,door (closed),low,
+Doors & Entrances,glass door,high,invisible obstacle
+Doors & Entrances,revolving door,medium,
+Doors & Entrances,automatic sliding door,low,
+People & Animals,pedestrian,medium,collision avoidance
+People & Animals,cyclist,high,
+People & Animals,dog (loose),medium,
+People & Animals,other animals,low,
+Indoor Obstacles,chair,medium,common trip hazard
+Indoor Obstacles,table,medium,
+Indoor Obstacles,stool,medium,
+Indoor Obstacles,trash can,low,
+Indoor Obstacles,box/package on floor,medium,
+Indoor Obstacles,electrical wire/cord,medium,
+Indoor Obstacles,glass table/wall,high,transparent hazard
+Indoor Obstacles,staircase railing,low,helpful landmark not hazard
+Everyday Objects (non-hazard - useful context),water bottle,none,object recognition for daily tasks
+Everyday Objects (non-hazard - useful context),cup/mug,none,
+Everyday Objects (non-hazard - useful context),plate,none,
+Everyday Objects (non-hazard - useful context),phone,none,
+Everyday Objects (non-hazard - useful context),wallet,none,
+Everyday Objects (non-hazard - useful context),keys,none,
+Everyday Objects (non-hazard - useful context),medicine bottle/pack,none,important for daily living assist
+Everyday Objects (non-hazard - useful context),currency note/coin,none,useful for shopping assistance
+Everyday Objects (non-hazard - useful context),food item,none,
+Everyday Objects (non-hazard - useful context),remote control,none,
+Signage & Text,street sign,low,for OCR/text-to-speech pipelines
+Signage & Text,shop sign,low,
+Signage & Text,restroom sign,low,
+Signage & Text,exit sign,medium,safety-relevant
+Signage & Text,warning/hazard sign,high,e.g. wet floor / under construction
+Water Hazards,puddle,low,
+Water Hazards,swimming pool edge,critical,
+Water Hazards,water body (pond/canal),critical,
+Fire/Heat Hazards,stove/burner,high,
+Fire/Heat Hazards,open flame,critical,
+Fire/Heat Hazards,hot surface,high,

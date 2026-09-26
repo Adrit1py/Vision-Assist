@@ -714,19 +714,27 @@ img {
 
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--space-5);
-  margin-top: var(--space-6);
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-6);
+  margin-top: var(--space-8);
 }
 
 .team-member-card {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: var(--space-3);
+  gap: var(--space-4);
   background: var(--surface-0);
   border: 1px solid var(--border-subtle);
-  padding: var(--space-3) var(--space-4);
+  padding: var(--space-4) var(--space-5);
   border-radius: var(--radius-md);
+  text-align: center;
+}
+
+.member-avatar {
+  width: 60px;
+  height: 60px;
+  font-size: 1.2rem;
 }
 
 .member-avatar {
