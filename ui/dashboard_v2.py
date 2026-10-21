@@ -78,36 +78,6 @@ def init_session_state():
     if "active_stage_override" not in st.session_state:
         st.session_state.active_stage_override = None
 
-def render_team_page():
-    """Render a simple Team page with member cards and contact info."""
-    st.markdown("<div class='header-title'>🚀 Team</div>", unsafe_allow_html=True)
-    st.markdown("""
-    <style>
-    .team-grid {display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;}
-    .member-card {background:#1E293B; border-radius:10px; padding:16px; width:200px; text-align:center;}
-    .member-card img {border-radius:50%; width:100px; height:100px; object-fit:cover;}
-    .member-card h4 {margin:8px 0 4px; color:#FFF;}
-    .member-card p {margin:0; color:#94A3B8; font-size:0.9rem;}
-    </style>
-    <div class='team-grid'>
-      <div class='member-card'>
-        <img src='https://via.placeholder.com/100' alt='Member 1'>
-        <h4>Adrit Das</h4>
-        <p>Lead Engineer</p>
-      </div>
-      <div class='member-card'>
-        <img src='https://via.placeholder.com/100' alt='Member 2'>
-        <h4>Jane Smith</h4>
-        <p>AI Researcher</p>
-      </div>
-      <div class='member-card'>
-        <img src='https://via.placeholder.com/100' alt='Member 3'>
-        <h4>John Doe</h4>
-        <p>UX Designer</p>
-      </div>
-    </div>
-    """, unsafe_allow_html=True)
-
 def render_dashboard():
     if st is None:
         raise ImportError("Streamlit is not installed. Run 'pip install streamlit'.")
@@ -118,11 +88,6 @@ def render_dashboard():
     # Navigation sidebar
     with st.sidebar:
         st.header("🎛️ Controls")
-        page = st.radio("Navigate", ["Dashboard", "Team"], index=0)
-        if page == "Team":
-            # Render team page and exit early
-            render_team_page()
-            return
         
         feed_source = st.radio(
             "Camera Feed Source",

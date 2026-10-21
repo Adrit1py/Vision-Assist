@@ -703,64 +703,6 @@ img {
   font-size: 1.1rem;
 }
 
-/* ==========================================================================
-   TEAM SECTION
-   ========================================================================== */
-.section-team {
-  padding: var(--space-8) var(--space-7);
-  max-width: 1240px;
-  margin: 0 auto;
-}
-
-.team-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: var(--space-6);
-  margin-top: var(--space-8);
-}
-
-.team-member-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-4);
-  background: var(--surface-0);
-  border: 1px solid var(--border-subtle);
-  padding: var(--space-4) var(--space-5);
-  border-radius: var(--radius-md);
-  text-align: center;
-}
-
-.member-avatar {
-  width: 60px;
-  height: 60px;
-  font-size: 1.2rem;
-}
-
-.member-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-pill);
-  background: var(--surface-2);
-  border: 1px solid var(--border-default);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: var(--weight-bold);
-  font-size: 0.85rem;
-  color: var(--accent);
-}
-
-.member-info h4 {
-  font-size: var(--text-sm);
-  font-weight: var(--weight-bold);
-  color: var(--text-primary);
-}
-
-.member-info p {
-  font-size: 0.72rem;
-  color: var(--text-muted);
-}
 
 /* ==========================================================================
    BOTTOM FINAL CTA & FOOTER
@@ -1512,9 +1454,6 @@ img {
   }
   .demo-preview-card {
     grid-template-columns: 1fr;
-  }
-  .team-grid {
-    grid-template-columns: repeat(2, 1fr);
   }
 }
 

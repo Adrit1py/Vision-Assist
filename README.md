@@ -17,9 +17,7 @@
 [Risk Mathematics](#-mathematical-risk-scoring) •
 [Product Modes](#-the-5-product-modes) •
 [Calibration Benchmark](#-phase-2-calibration-benchmark) •
-[Quickstart](#-quickstart-guide) •
-[Team & Hackathon](#-team--hackathon-pitch)
-
+[Quickstart](#-quickstart-guide)
 </div>
 
 ---
@@ -340,21 +338,7 @@ VisonAssist/
 
 ---
 
-## 👥 Team & Hackathon Pitch
-
-<div align="center">
-
-| Member | Focus Area | Core Modules |
-| :--- | :--- | :--- |
-| **Abhinav Chauhan** | **Lead · Systems Architecture & Integration** | Core Pipeline, Context Engine, Risk Engine, Priority Engine, CI/CD & Security |
-| **Adrit** | **Vision · OCR & Audio Infrastructure** | YOLOv8 Perception, EasyOCR Engine, Monocular Depth Math, Phone Audio Relay |
-| **Dipayan** | **UI / UX · Evaluation & Documentation** | Streamlit Dashboard, Scenario Assets, Test Automation, Demo Runbook |
-
-*Developed for the Open Innovation Hackathon · Manipal University Jaipur · 2026*
-
-</div>
-
-### 🎤 The 30-Second Elevator Pitch
+## 🎤 The 30-Second Elevator Pitch
 > *"A camera can see hundreds of objects in a single glance — but a visually impaired user cannot process hundreds of audio notifications. Reading that list aloud is dangerous noise. VisionAssist converts visual information into prioritized, actionable acoustic guidance. Our MVP pairs a wearable smartphone with edge compute to detect hazards, read signage, estimate distance, assess risk, and speak only what matters. The architecture is hardware-independent: today's smartphone is tomorrow's smart glasses."*
 
 ---
